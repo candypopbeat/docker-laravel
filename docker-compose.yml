@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+
+  # PHP Apache
+  php-apache:
+    build: ./config/php
+    container_name: php-apache
+    ports:
+      - 8080:80
+    volumes:
+      - ./html:/var/www/html
+    restart: always
+    depends_on:
+      - mysql
+
+  # MySQL
+  mysql:
+    build: ./config/mysql
+    container_name: mysql
+    ports:
+      - 3307:3306
+    volumes:
+      - ./config/mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: sample
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      TZ: 'Asia/Tokyo'
+
+  #Mail
+  mail:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - '8025:8025'
+    volumes:
+      - ./maildir:/tmp
+    environment:
+      MH_STORAGE: maildir
+      MH_MAILDIR_PATH: /tmp
