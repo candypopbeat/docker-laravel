@@ -36,6 +36,11 @@
 ### Step 5 Laravel 初期設定
 
 - コンテナに入った状態で行うこと
+- コンポーザーを使ってライブラリをインストールする
+  - 15分～30分かかったりします
+
+    ```composer install```
+
 - .envファイルを設置する
 
   ```cp .env.example .env```
@@ -43,10 +48,6 @@
 - .envに APP_KEY を入力する
 
   ```php artisan key:generate```
-
-- コンポーザーを使ってライブラリをインストールする
-
-  ```composer install```
 
 - ブラウザからアクセスして確認する
 
@@ -62,11 +63,13 @@
 ## データベースの設定
 
 - .env の DB 設定を書き換える
+  - docker-compose.yml に設定している内容
 
   ```
-  MYSQL_DATABASE: {sample}
-  MYSQL_USER: {user}
-  MYSQL_PASSWORD: {password}
+  DB_HOST={mysql}
+  DB_DATABASE={sample}
+  DB_USERNAME={user}
+  DB_PASSWORD={password}
   ```
 
 - マイグレーションを行う
@@ -75,21 +78,21 @@
 
 ## データベースの確認
 
-### データベースクライアントソフトなどで下記のように接続する  
-
-```
-Host: 127.0.0.1
-Port: 3307
-User: {user}
-Password: {password}
-```
+### データベースクライアントソフトなどで下記のように接続する
 
 - docker-compose.yml に設定している内容
+  ```
+  Host: 127.0.0.1
+  Port: 3307
+  User: {user}
+  Password: {password}
+  ```
+
 - 「sample」というデータベースの中に「samples」というテーブルがあれば、Docker ビルドで
 
   ```/config/mysql/initdb.d/init.sql```
 
-  が実行されていてビルド時にデータベースを構築することも成功しているので、利用できる
+  が実行されていてビルド時にデータベースを構築することも成功しているので、「init.sql」も利用できる
 - 「sample」というデータベースはテストなので削除する
 
 ## メール設定
