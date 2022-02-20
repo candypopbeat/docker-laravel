@@ -66,10 +66,10 @@
   - docker-compose.yml に設定している内容
 
   ```
-  DB_HOST={mysql}
-  DB_DATABASE={sample}
-  DB_USERNAME={user}
-  DB_PASSWORD={password}
+  DB_HOST={docker-compose.ymlのコンテナ名にもなるmysqlの設定名で、変更していなければ「mysql」}
+  DB_DATABASE={変更していなければ「sample」}
+  DB_USERNAME={変更していなければ「user」}
+  DB_PASSWORD={変更していなければ「password」}
   ```
 
 - マイグレーションを行う
