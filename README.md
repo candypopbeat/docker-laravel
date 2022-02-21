@@ -25,9 +25,13 @@
 - Dockerが起動していないと上記コマンドでエラーがでるかもしれない
 
 ### Step 4 ビルドされた Docker コンテナの起動テスト
+- コンテナ名を調べる
+
+  ```docker ps```
+
 - コンテナに入る
 
-  ```docker container exec -it php-apache bash```
+  ```docker container exec -it {コンテナ名} bash```
 
 - 現在地が下記になれば成功
 
