@@ -1,15 +1,10 @@
 # image
-FROM mysql:5.7
-
-# Set my.cnf
-COPY ./my.cnf /etc/mysql/conf.d/
+FROM mysql:5.7-debian
 
 # Set Japanese
-RUN apt update && apt install -y \
-  locales \
-  && apt clean \
-  && rm -rf /var/lib/apt/lists/*
-RUN sed -i -E 's/# (ja_JP.UTF-8)/\1/' /etc/locale.gen \
-  && locale-gen
+RUN apt-get update
+RUN apt-get -y install locales-all
 ENV LANG ja_JP.UTF-8
-CMD ["mysqld", "--character-set-server=utf8", "--collation-server=utf8_unicode_ci"]
+ENV LANGUAGE ja_JP:ja
+ENV LC_ALL ja_JP.UTF-8
+COPY mysqld_charset.cnf /etc/mysql/conf.d/mysqld_charset.cnf
