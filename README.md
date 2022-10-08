@@ -355,6 +355,6 @@ apt autoremove
 ## node と npm をインストールする
 ```bash
 curl -sL https://deb.nodesource.com/setup_lts.x | bash - # LTS
-curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash - # バージョン指定
+curl -sL https://deb.nodesource.com/setup_18.x | bash - # バージョン指定
 apt install -y nodejs
 ```
