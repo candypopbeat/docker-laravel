@@ -77,7 +77,23 @@ composer create-project "laravel/laravel=9.*" ./
 ```
 <br>
 
+### ドキュメントルートを変更する
+
+- apache2.conf の調整
+  ```diff
+  - DocumentRoot /var/www/html
+  + DocumentRoot /var/www/html/public
+  ```
+
+- 000-default.conf の調整
+  ```diff
+  - DocumentRoot /var/www/html
+  + DocumentRoot /var/www/html/public
+  ```
+<br>
+
 ### .envファイルを設置する
+
 ```bash
 cp .env.example .env
 ```
@@ -111,6 +127,14 @@ MAIL_FROM_NAME="${APP_NAME}"
 ### artisanコマンドで .envに APP_KEY を入力する
 ```bash
 php artisan key:generate
+```
+<br>
+
+### コンテナを再起動する
+コンソールで起動中コンテナをキャンセルして、もう一度すぐに起動させる
+
+```bash
+docker-compose up
 ```
 <br>
 
