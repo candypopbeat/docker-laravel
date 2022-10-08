@@ -95,6 +95,9 @@ composer create-project "laravel/laravel=9.*" ./
 + DB_DATABASE=sample # デフォルトで存在しているDB、変更してもOK
 + DB_USERNAME=root # docker-compose.ymlより
 + DB_PASSWORD=root # docker-compose.ymlより
+
+- MAIL_HOST=mailhog
++ MAIL_HOST=mail
 ```
 <br>
 
@@ -134,7 +137,7 @@ php artisan migrate
 
 ```diff
 - 'timezone' => 'UTC',
-+ 'timezone' => 'Asia/Tokyo'
++ 'timezone' => 'Asia/Tokyo',
 
 - 'locale' => 'en',
 + 'locale' => 'ja',
