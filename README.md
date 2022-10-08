@@ -68,10 +68,13 @@ docker container exec -it {コンテナ名} bash
 ```bash
 rm -rf public
 ```
+
+- Laravelをインストールするにはhtmlディレクトリが空でなければならないため
+- Apache構築の際のドキュメントルート設定にpublicディレクトリが存在していなければならないため、初期に存在している  
 <br>
 
 ### コンポーザーを使ってLaravelをインストールする  
-15分～30分かかったりします
+15～30分かかったりします
 ```bash
 # バージョン指定なしで最新版となる
 composer create-project laravel/laravel --prefer-dist ./
