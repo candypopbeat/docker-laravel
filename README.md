@@ -179,7 +179,12 @@ http://localhost:8025/
 
 ## コンポーザーを使って Laravel をインストールする
 ```bash
-composer create-project laravel/laravel ./
+# バージョン指定なしで最新版となる
+composer create-project laravel/laravel --prefer-dist ./
+
+# バージョン指定あり
+composer create-project laravel/laravel:^8.0 ./
+composer create-project "laravel/laravel=9.*" ./
 ```
 <br><br>
 
