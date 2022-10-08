@@ -115,12 +115,6 @@ cp .env.example .env
 ```
 <br>
 
-### artisanコマンドで .envに APP_KEY を入力する
-```bash
-php artisan key:generate
-```
-<br>
-
 ### コンテナを再起動する
 コンソールで起動中コンテナをキャンセルして、もう一度すぐに起動させる
 
