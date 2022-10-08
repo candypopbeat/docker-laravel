@@ -112,15 +112,6 @@ cp .env.example .env
 + DB_DATABASE=sample # デフォルトで存在しているDB、変更してもOK
 + DB_USERNAME=root # docker-compose.ymlより
 + DB_PASSWORD=root # docker-compose.ymlより
-
-MAIL_MAILER=smtp
-MAIL_HOST=mailhog
-MAIL_PORT=1025
-MAIL_USERNAME=null
-MAIL_PASSWORD=null
-MAIL_ENCRYPTION=null
-MAIL_FROM_ADDRESS=null
-MAIL_FROM_NAME="${APP_NAME}"
 ```
 <br>
 
