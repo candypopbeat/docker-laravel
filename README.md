@@ -336,3 +336,25 @@ docker-compose down --rmi all --volumes --remove-orphans
 ```
 docker image prune -a
 ```
+<br><br>
+
+# npm が使えなかったら
+
+## node と npm を消す
+```bash
+rm -rf /usr/local/bin/npm /usr/local/share/man/man1/node* ~/.npm
+rm -rf /usr/local/lib/node*
+rm -rf /usr/local/bin/node*
+rm -rf /usr/local/include/node*
+
+apt-get purge nodejs npm
+apt autoremove
+```
+<br>
+
+## node と npm をインストールする
+```bash
+curl -sL https://deb.nodesource.com/setup_lts.x | bash - # LTS
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash - # バージョン指定
+apt install -y nodejs
+```
