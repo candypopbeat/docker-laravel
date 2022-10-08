@@ -1,11 +1,13 @@
 # DockerでLaravel環境構築
 
 ## Install
+<br>
 
 ### Git クローンでリポジトリを入手
-```
+```bash
 git clone https://github.com/candypopbeat/docker-laravel
 ```
+<br>
 
 ### 各種バージョン指定など細かく設定変更したいなら設定ファイルを編集
 
@@ -19,145 +21,194 @@ git clone https://github.com/candypopbeat/docker-laravel
   - config/php/Dockerfile
   - config/php/php.ini
   - config/php/sites/000-default.conf
+<br><br>
 
 ### Docker ビルド～スタートまで
 
-```
+```bash
 docker-compose up
 ```
 
 - Dockerが入っていない場合は先にインストールしておく
-- Dockerが起動していないと上記コマンドでエラーがでるかもしれない
+- Dockerが起動していないと上記コマンドでエラーがでる
+<br><br>
 
-### ビルドされた Docker コンテナの起動テスト
-- コンテナ名を調べる
-```
+---
+<br>
+
+## ビルドされた Docker コンテナの起動テスト
+<br>
+
+### コンテナ名を調べる
+```bash
 docker ps
 ```
+<br>
 
-- コンテナに入る
-```
+### コンテナに入る
+```bash
 docker container exec -it {コンテナ名} bash
 ```
+<br>
 
-- 現在地が下記になれば成功
-```
+### 現在地が下記になれば成功
+```bash
 /var/www/html
 ```
+<br>
 
-### Laravel 初期設定
+---
+<br>
 
-- コンテナに入った状態で行うこと
-- コンポーザーを使ってライブラリをインストールする
-  - 15分～30分かかったりします
-```
-composer install
-```
+## Laravel プロジェクト作成
+<br>
 
-- .envファイルを設置する
+### コンテナに入った状態で行うこと
+
+コンポーザーを使ってLaravelをインストールする  
+15分～30分かかったりします
+```bash
+# バージョン指定なしで最新版となる
+composer create-project laravel/laravel --prefer-dist ./
+
+# バージョン指定あり
+composer create-project laravel/laravel:^8.0 ./
+composer create-project "laravel/laravel=9.*" ./
 ```
+<br>
+
+### .envファイルを設置する
+```bash
 cp .env.example .env
 ```
+<br>
 
-- .envに APP_KEY を入力する
+### .envファイルを下記のように編集する
+```diff
+- APP_NAME=Laravel
++ APP_NAME={任意のプロジェクト名}
+
+- DB_HOST=127.0.0.1
+- DB_DATABASE=laravel
+- DB_USERNAME=root
+- DB_PASSWORD=
++ DB_HOST=mysql # docker-compose.ymlより
++ DB_DATABASE=sample # デフォルトで存在しているDB、変更してもOK
++ DB_USERNAME=root # docker-compose.ymlより
++ DB_PASSWORD=root # docker-compose.ymlより
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_ENCRYPTION=null
+MAIL_FROM_ADDRESS=null
+MAIL_FROM_NAME="${APP_NAME}"
 ```
+<br>
+
+### artisanコマンドで .envに APP_KEY を入力する
+```bash
 php artisan key:generate
 ```
+<br>
 
-- ブラウザからアクセスして確認する
-```
-http://localhost:8080
-```
+### ブラウザからアクセスして表示確認をする
 
-- 権限エラー（パーミッションエラー）が発生したら下記で解決するかも
+```bash
+http://localhost:8080 # docker-compose.ymlで指定しているポート
 ```
+<br>
+
+### 権限エラー（パーミッションエラー）が発生したら下記で解決するかも
+
+```bash
 chmod -R 777 storage
 chmod -R 777 bootstrap
 ```
+<br>
 
-## データベースの設定
-
-- .env の DB 設定を書き換える
-  - docker-compose.yml に設定している内容
-```
-DB_HOST={docker-compose.ymlのコンテナ名にもなるmysqlの設定名で、変更していなければ「mysql」}
-DB_DATABASE={変更していなければ「sample」}
-DB_USERNAME={変更していなければ「user」}
-DB_PASSWORD={変更していなければ「password」}
-```
-
-- マイグレーションを行う
+### artisanコマンドでマイグレーションを行う
 ```
 php artisan migrate
 ```
+<br>
 
-## メール設定
+---
+<br>
 
-- .env を調整する
+## 日本語モードにするために、config/app.php を下記のように編集する
+
+```diff
+- 'timezone' => 'UTC',
++ 'timezone' => 'Asia/Tokyo'
+
+- 'locale' => 'en',
++ 'locale' => 'ja',
+
+- 'faker_locale' => 'en_US',
++ 'faker_locale' => 'ja_JP',
+
 ```
-MAIL_HOST={mail}
-MAIL_PORT=1025
-MAIL_FROM_ADDRESS={info@change.me}
-```
+<br><br>
 
-- MAIL_HOST は docker-compose.yml に設定している内容
-- MAIL_FROM_ADDRESS は .env で自由に書換可能
+# メール確認
 
-## メール確認
+## Laravel の tinker を使ってメール送信テスト
+コンテナに入ってから行う
 
-- Laravel の tinker を使ってメール送信テスト
-  - コンテナに入ってから行う
-```
+```bash
 php artisan tinker
 Mail::raw('test mail',function($message){$message->to('test@example.com')->subject('test');});
 ```
+<br>
 
-- mailhog UI にアクセスし受信確認をする
-```
+## mailhog UI にアクセスし受信確認をする
+
+```bash
 http://localhost:8025/
 ```
+<br><br>
 
-## Laravel の再インストール
-- 下記の中を空にする
-```
+# Laravel の再インストール
+
+## 下記の中を空にする
+```bash
 /var/www/html
 ```
+<br>
 
-- コンポーザーを使って Laravel をインストールする
-```
+## コンポーザーを使って Laravel をインストールする
+```bash
 composer create-project laravel/laravel ./
 ```
+<br><br>
 
-## Laravel を削除する
+# Laravel を削除する
 
-### 下記の中を空にする
-```
+## 下記の中を空にする
+```bash
 /var/www/html
 ```
+<br>
 
-### ドキュメントルートを変更する
+## ドキュメントルートを変更する
 
-- apache2.conf の調整
+### apache2.conf の調整
+```diff
+- DocumentRoot /var/www/html/public
++ DocumentRoot /var/www/html
 ```
-DocumentRoot /var/www/html/public
-```
-を
-```
-DocumentRoot /var/www/html
-```
-にする
 
-- 000-default.conf の調整
+## 000-default.conf の調整
+```diff
+- DocumentRoot /var/www/html/public
++ DocumentRoot /var/www/html
 ```
-DocumentRoot /var/www/html/public
-```
-を
-```
-DocumentRoot /var/www/html
-```
-にする
+<br>
 
-### Docker を再ビルドする
+## Docker を再ビルドする
 ```
 docker-compose down
 ```
@@ -169,19 +220,23 @@ docker-compose build
 ```
 docker-compose up
 ```
+<br>
 
-### 確認する
-- ドキュメントルートとなった /var/www/html になにかファイルを置く
-- ブラウザからアクセスする
-```
+## 確認する
+
+### ドキュメントルートとなった /var/www/html になにかファイルを置いて、ブラウザからアクセスする
+
+```bash
 http://localhost:8080
 ```
+<br><br>
 
 # クライアントソフトでデータベースの確認
 
 ## データベース操作するクライアントソフトをインストール
 
 ### いくつか存在するが、下記がおすすめ
+
 - DBeaver
   - https://dbeaver.io/download/
 - TablePlus
@@ -190,29 +245,33 @@ http://localhost:8080
 ## クライアントソフトの設定を下記のようにしてリモート接続する
 
 ### docker-compose.yml に設定している内容
-```
-Host: 127.0.0.1
-Port: 3307
-User: {user}
-Password: {password}
-```
 
-### 「sample」というデータベースの中に「samples」というテーブルがあれば、Docker ビルドで
+```bash
+Host: localhost
+Port: 3307 # docker-compose.ymlより
+User: root # docker-compose.ymlより
+Password: root # docker-compose.ymlより
+```
+<br>
+
+## 「sample」というデータベースの中に「samples」というテーブルがあれば、Docker ビルドで
 ```
 /config/mysql/initdb.d/init.sql
 ```
 が実行されていてビルド時にデータベースを構築することも成功しているので、「init.sql」も利用できる
 「sample」というデータベースはテストなので削除しても構わない
+<br><br>
 
 # CLI でデータベース操作
 
-#### コンテナ内に入って mysql コンソール状態にする
+## mysql コンテナ内に入って mysql コンソール状態にする
 
-- 下記コマンドを実行
-  ```
-  docker exec -it {コンテナ名} mysql -u {ユーザー名} -p
-  ```
-- パスワードを求められるので、そのユーザーのものを入力する
+下記コマンドを実行  
+パスワードを求められるので、そのユーザーのものを入力する
+```
+docker exec -it {コンテナ名} mysql -u {ユーザー名} -p
+```
+<br><br>
 
 # MySQLコマンド
 
@@ -235,39 +294,42 @@ show tables;
 ```
 desc {テーブル名};
 ```
-# Docker コマンド
+<br><br>
 
-#### コンテナに入る
+# Docker コマンド
+<br>
+
+## コンテナに入る
 ```
 docker container exec -it docker-rails-web-1 bash
 ```
 
-#### コンテナ起動・作成
+## コンテナ起動・作成
 ```
 docker-compose up
 ```
 
-#### コンテナ停止
+## コンテナ停止
 ```
 docker-compose stop
 ```
 
-#### コンテナ・イメージ構築
+## コンテナ・イメージ構築
 ```
 docker-compose build
 ```
 
-#### コンテナ削除
+## コンテナ削除
 ```
 docker-compose down
 ```
 
-#### コンテナ・イメージ・ボリューム削除
+## コンテナ・イメージ・ボリューム削除
 ```
 docker-compose down --rmi all --volumes --remove-orphans
 ```
 
-#### 未使用イメージ一括削除
+## 未使用イメージ一括削除
 ```
 docker image prune -a
 ```

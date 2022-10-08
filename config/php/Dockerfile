@@ -1,5 +1,5 @@
 # image
-FROM php:8.0-apache
+FROM php:8.1-apache
 
 # Set php
 COPY ./php.ini /usr/local/etc/php/
