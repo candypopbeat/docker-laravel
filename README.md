@@ -60,12 +60,17 @@ docker container exec -it {コンテナ名} bash
 ---
 <br>
 
-## Laravel プロジェクト作成
+## Laravel プロジェクト作成（コンテナ内で行う）
 <br>
 
-### コンテナに入った状態で行うこと
+### publicディレクトリ（/var/www/html/public）を削除する
 
-コンポーザーを使ってLaravelをインストールする  
+```bash
+rm -rf public
+```
+<br>
+
+### コンポーザーを使ってLaravelをインストールする  
 15分～30分かかったりします
 ```bash
 # バージョン指定なしで最新版となる
@@ -74,28 +79,6 @@ composer create-project laravel/laravel --prefer-dist ./
 # バージョン指定あり
 composer create-project laravel/laravel:^8.0 ./
 composer create-project "laravel/laravel=9.*" ./
-```
-<br>
-
-### ドキュメントルートを変更する
-
-- apache2.conf の調整
-  ```diff
-  - DocumentRoot /var/www/html
-  + DocumentRoot /var/www/html/public
-  ```
-
-- 000-default.conf の調整
-  ```diff
-  - DocumentRoot /var/www/html
-  + DocumentRoot /var/www/html/public
-  ```
-<br>
-
-### .envファイルを設置する
-
-```bash
-cp .env.example .env
 ```
 <br>
 
