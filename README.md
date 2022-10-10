@@ -122,8 +122,7 @@ http://localhost:8080 # docker-compose.ymlで指定しているポート
 ### 権限エラー（パーミッションエラー）が発生したら下記で解決するかも
 
 ```bash
-chmod -R 777 storage
-chmod -R 777 bootstrap
+chmod -R 777 storage && chmod -R 777 bootstrap
 ```
 <br>
 
