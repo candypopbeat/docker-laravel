@@ -101,6 +101,8 @@ composer create-project "laravel/laravel=9.*" ./
 
 - MAIL_HOST=mailhog
 + MAIL_HOST=mail
++ MAIL_PORT=1025
++ MAIL_FROM_ADDRESS=info@mail.com
 ```
 <br>
 
