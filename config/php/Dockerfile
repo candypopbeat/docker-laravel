@@ -17,6 +17,8 @@ RUN apt-get install -y zip
 RUN apt-get install -y git
 RUN apt-get install -y curl
 RUN apt-get install wget
+RUN apt-get install -y cron
+RUN apt-get install vim
 RUN apt-get clean
 
 # composer
