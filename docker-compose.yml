@@ -9,7 +9,6 @@ services:
       - 8080:80
     volumes:
       - ./html:/var/www/html
-    restart: always
     depends_on:
       - mysql
 
@@ -21,7 +20,6 @@ services:
     volumes:
       - ./config/mysql/initdb.d:/docker-entrypoint-initdb.d
       - ./data:/var/lib/mysql
-    restart: always
     environment:
       MYSQL_DATABASE: sample
       MYSQL_ROOT_USER: root
