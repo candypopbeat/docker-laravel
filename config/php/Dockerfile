@@ -17,9 +17,7 @@ RUN apt-get install -y zip
 RUN apt-get install -y git
 RUN apt-get install -y curl
 RUN apt-get install wget
-RUN apt-get install -y cron
 RUN apt-get install vim
-RUN apt-get clean
 
 # composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
@@ -33,3 +31,9 @@ RUN dpkg -i yarn_1.22.19_all.deb
 
 # mysql
 RUN docker-php-ext-install pdo_mysql mysqli
+
+# cron
+RUN apt-get install -y cron
+RUN /etc/init.d/cron start
+
+RUN apt-get clean
