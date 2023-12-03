@@ -12,12 +12,13 @@ RUN /bin/sh -c a2enmod rewrite
 
 # Install
 RUN apt-get update
+RUN apt-get install -y vim
 RUN apt-get install -y libonig-dev
 RUN apt-get install -y zip
 RUN apt-get install -y git
 RUN apt-get install -y curl
 RUN apt-get install wget
-RUN apt-get install vim
+
 
 # composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
